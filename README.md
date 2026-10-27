@@ -1,4 +1,9 @@
-# 🚀 Laravel 11 — Guía de instalación
+# 💰 appFinanzas — Finanzas personales
+
+App web para controlar ingresos, gastos, categorías (esencial / no esencial / ahorro) y presupuestos mensuales,
+con gráficas y comparación contra metodologías de ahorro (50/30/20, 70/20/10 o personalizada).
+
+**Stack:** Laravel 13 + MySQL · Vue 3 + Inertia.js · Quasar · Chart.js · Docker. La API REST con Sanctum (`/api/...`) sigue disponible.
 
 Sigue estos pasos después de clonar el repositorio para levantar el proyecto localmente.
 
@@ -35,8 +40,12 @@ Eso es todo. El script hace automáticamente:
 
 | Servicio | URL |
 |---|---|
-| API Laravel | http://localhost:8000 |
+| App web (y API en `/api`) | http://localhost:8000 |
 | phpMyAdmin | http://localhost:8080 |
+
+Usuario de prueba (del seeder): `superusuario@live.es` / `123456`. Cambia la contraseña si vas a usarla con datos reales.
+
+> `setup.sh` no compila el frontend: después de correrlo ejecuta `npm install && npm run build`.
 
 ---
 
@@ -57,6 +66,16 @@ bash setup.sh
 ```bash
 # Ver logs en tiempo real
 docker compose logs -f
+
+# Compilar el frontend (en el host, requiere Node 20+)
+npm install
+npm run build      # o `npm run dev` mientras desarrollas
+
+# Cargar datos de prueba (2 ingresos + un gasto por categoría en el mes actual)
+docker compose exec app php artisan db:seed --class=DemoDataSeeder
+
+# Respaldar la base (los .sql están en .gitignore para no subir datos personales)
+docker compose exec db mysqldump -u root -proot appFinanzas > respaldo.sql
 
 # Entrar al contenedor
 docker compose exec app bash

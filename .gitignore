@@ -17,3 +17,8 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+
+# Respaldos de base de datos (pueden contener datos personales)
+*.sql
+*.sql.gz
+/database/*.sqlite
